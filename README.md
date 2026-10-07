@@ -2,6 +2,10 @@
 
 WLAN- und MQTT-Steuerung einer LED-Uhr mit vier aus einzelnen LEDs aufgebauten Ziffern und einem 60-LED-Ring. Der ursprüngliche Holtek HT48R066 wird durch einen Arduino UNO R4 WiFi bzw. den getesteten Freenove-Nachbau ersetzt. Der vorhandene 74HC595 und die Transistorstufen bleiben auf der Platine.
 
+![Nerd-Clock im Gehäuse](docs/images/nerd-clock-6.jpg)
+
+[Entwicklung in Bildern: vom ursprünglichen Aufbau bis zur Uhr im Gehäuse](docs/DEVELOPMENT.md)
+
 ## Funktionen
 
 - Uhrzeit ohne führende Stunden-Null (`0:00`, `9:05`, `10:05`); Timer ebenso ohne führende Minuten-Null.
