@@ -1,0 +1,14 @@
+build/
+.cache/
+.vscode/
+.idea/
+*.bin
+*.elf
+*.hex
+*.map
+*.zip
+__pycache__/
+.DS_Store
+arduino_secrets.h
+secrets.*
+core

@@ -1,0 +1,40 @@
+name: Build and tests
+"on":
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  host-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run behavior and JSON checks
+        run: ./tests/run.sh
+  arduino-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: arduino/setup-arduino-cli@v2
+      - name: Install pinned board and libraries
+        run: |
+          arduino-cli core update-index
+          arduino-cli core install arduino:renesas_uno@1.6.0
+          arduino-cli lib install 'PubSubClient@2.8'
+          mkdir -p "$HOME/Arduino/libraries"
+          git clone https://github.com/HiTECH-Corporation/R4-WifiManager.git "$HOME/Arduino/libraries/HiTECH_R4_Wifi_Manager"
+          git -C "$HOME/Arduino/libraries/HiTECH_R4_Wifi_Manager" checkout 268a055b38f793884a1f10fa02aa5c6a8ded150f
+      - name: Compile UNO R4 WiFi
+        run: |
+          arduino-cli compile --fqbn arduino:renesas_uno:unor4wifi --warnings default --output-dir build firmware/Nerd_Clock
+          python3 tools/make_ota.py build/Nerd_Clock.ino.bin build/Nerd-Clock.ota
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Nerd-Clock-firmware
+          path: |
+            build/Nerd_Clock.ino.bin
+            build/Nerd-Clock.ota

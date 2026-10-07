@@ -1,0 +1,2 @@
+#pragma once
+struct WiFiManager {enum SystemStatus{STATUS_IDLE,STATUS_AP_MODE,STATUS_CONNECTING,STATUS_CONNECTED,STATUS_RECONNECTING};SystemStatus state=STATUS_IDLE;void(*callback)()=nullptr; SystemStatus getStatus(){return state;}void setAPCallback(void(*c)()){callback=c;}void setKeepServerAlive(bool){}void setPort(int){}bool autoConnect(const char*,const char*){state=STATUS_AP_MODE;if(callback)callback();return false;}void process(){}void resetSettings(){} };
